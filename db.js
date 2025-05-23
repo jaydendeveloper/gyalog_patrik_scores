@@ -21,13 +21,13 @@ INSERT INTO scores (game, score) VALUES
 ('Counter-Strike', 400);
 `);
 
-export const getAllScores = ()=>{
+export const getAllScores = () => {
     const scores = db.prepare("SELECT * FROM scores").all();
     return scores;
 }
 
 
-export const getScore = (id)=>{
+export const getScore = (id) => {
     const score = db.prepare("SELECT * FROM scores WHERE id = ?").get(id);
     if (!score) {
         return {

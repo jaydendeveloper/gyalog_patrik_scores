@@ -48,5 +48,7 @@ app.delete("/scores/:id", (req, res) => {
         return res.status(404).json({ error: result.error });
     }
 
-    return res.status(204).json(result);
+    return res.status(204).json({
+        message: "No Content",
+    });
 })
