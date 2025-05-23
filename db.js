@@ -42,7 +42,9 @@ export const addScore = (game, score) => {
 
 export const deleteScore = (id) => {
     const scoreToDelete = db.prepare("DELETE FROM scores WHERE id = ?").run(id);
-    if (!scoreToDelete) {
+
+    console.log(scoreToDelete);
+    if (scoreToDelete.changes == 0) {
         return {
             error: "Score not found",
         }

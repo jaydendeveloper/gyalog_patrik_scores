@@ -29,6 +29,10 @@ app.get("/scores/:id", (req, res) => {
 });
 
 app.post("/scores", (req,res) => {
+    if (!req.body) {
+        return res.status(400).json({ error: "Request body is required" });
+    }
+
     const { game, score } = req.body;
 
     if (!game || !score) {
@@ -42,13 +46,15 @@ app.post("/scores", (req,res) => {
 app.delete("/scores/:id", (req, res) => {
     const id = req.params.id;
 
+    if(!id){
+        return res.status(400).json({ error: "ID is required" });
+    }
+
     const result = deleteScore(id);
     
     if (result.error) {
         return res.status(404).json({ error: result.error });
     }
 
-    return res.status(204).json({
-        message: "No Content",
-    });
+    return res.status(204).json(result);
 })
