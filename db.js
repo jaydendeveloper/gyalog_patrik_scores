@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS scores (
 );`
 );
 
-
 db.exec(`
 INSERT INTO scores (game, score) VALUES
 ('Pacman', 100),
@@ -25,7 +24,6 @@ export const getAllScores = () => {
     const scores = db.prepare("SELECT * FROM scores").all();
     return scores;
 }
-
 
 export const getScore = (id) => {
     const score = db.prepare("SELECT * FROM scores WHERE id = ?").get(id);
