@@ -30,7 +30,9 @@ export const getAllScores = ()=>{
 export const getScore = (id)=>{
     const score = db.prepare("SELECT * FROM scores WHERE id = ?").get(id);
     if (!score) {
-        throw new Error("Score not found");
+        return {
+            error: "Score not found",
+        }
     }
     return score;
 }
@@ -41,12 +43,14 @@ export const addScore = (game, score) => {
 };
 
 export const deleteScore = (id) => {
-    const scoreToDelete = db.prepare("DELETE FROM scores WHERE id = ?").get(id);
+    const scoreToDelete = db.prepare("DELETE FROM scores WHERE id = ?").run(id);
     if (!scoreToDelete) {
-        throw new Error("Score not found");
+        return {
+            error: "Score not found",
+        }
     }
 
     return {
-        message: "Score deleted successfully",
+        message: "No Content",
     }
 }

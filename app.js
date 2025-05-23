@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllScores, getScore } from "./db.js";
+import { getAllScores, getScore, addScore, deleteScore } from "./db.js";
 
 const app = express();
 
@@ -19,12 +19,34 @@ app.get("/scores", (req, res) => {
 app.get("/scores/:id", (req, res) => {
     const id = req.params.id;
 
-
     const score = getScore(id);
 
-    if(!score) {
+    if(score.error) {
         return res.status(404).json({ error: "Score not found" });
     }
 
     return res.json(score);
 });
+
+app.post("/scores", (req,res) => {
+    const { game, score } = req.body;
+
+    if (!game || !score) {
+        return res.status(400).json({ error: "Game and score are required" });
+    }
+
+    const newScore = addScore(game, score);
+    return res.json(newScore);
+})
+
+app.delete("/scores/:id", (req, res) => {
+    const id = req.params.id;
+
+    const result = deleteScore(id);
+    
+    if (result.error) {
+        return res.status(404).json({ error: result.error });
+    }
+
+    return res.status(204).json(result);
+})
